@@ -1,8 +1,8 @@
 import { buscarFacturas, cerrarConexion } from "./procesos/mongo";
 
 const PORT      = parseInt(process.env.PORT      ?? "3000");
-const AUTH_USER = process.env.AUTH_USER ?? "admin";
-const AUTH_PASS = process.env.AUTH_PASS ?? "changeme";
+const AUTH_USER = process.env.AUTH_USER;
+const AUTH_PASS = process.env.AUTH_PASS;
 
 function checkAuth(req: Request): boolean {
   const header = req.headers.get("Authorization");
