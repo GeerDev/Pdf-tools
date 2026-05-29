@@ -8,7 +8,7 @@ import { exportarExcel } from "./procesos/excel";
 
 const CARPETA_PDFS = "./pdfs";
 
-function compararResultados(resultados: { label: string; datos: DatosFactura }[]): boolean {
+function compararResultados(resultados: { label: string; datos: DatosFactura }[], archivo?: string): boolean {
   const activos = resultados.filter(r => r.datos != null);
   if (activos.length < 2) return false;
 
@@ -34,7 +34,7 @@ function compararResultados(resultados: { label: string; datos: DatosFactura }[]
   if (diferencias.length === 0) {
     return false;
   } else {
-    console.log(`  ⚠️  ${diferencias.length} diferencia(s):`);
+    console.log(`  ⚠️  ${diferencias.length} diferencia(s)${archivo ? ` en ${archivo}` : ""}:`);
     for (const d of diferencias) console.log(d);
     return true;
   }
@@ -97,7 +97,7 @@ async function procesarCarpeta() {
       const hayDif = compararResultados([
         { label: "REGEX", datos: r.regex },
         { label: "PDFJS", datos: r.pdfjs },
-      ]);
+      ], r.archivo);
       if (hayDif) archivosConDiferencias.push(r.archivo);
     }
 
@@ -107,7 +107,7 @@ async function procesarCarpeta() {
       console.log("✅ RESUMEN: todos los archivos coinciden entre REGEX y PDFJS");
       console.log("═".repeat(50));
       for (const r of resultados) {
-        await guardarFactura("PDF_EXTRACTION", r.regex).catch(e => console.error("⚠️  Mongo:", e.message));
+        await guardarFactura("PDF_EXTRACTION", r.pdfjs).catch(e => console.error("⚠️  Mongo:", e.message));
       }
       return;
     }

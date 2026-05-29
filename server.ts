@@ -1,6 +1,6 @@
 import { buscarFacturas, cerrarConexion } from "./procesos/mongo";
 
-const PORT      = parseInt(process.env.PORT      ?? "3000");
+const PORT      = parseInt(process.env.PORT      ?? "4000");
 const AUTH_USER = process.env.AUTH_USER;
 const AUTH_PASS = process.env.AUTH_PASS;
 
